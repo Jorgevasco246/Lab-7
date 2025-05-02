@@ -4,7 +4,11 @@ function Libro(id, titulo, autor, año) {
     this.titulo = titulo
     this.autor = autor
     this.año = año
-    
+
+    this.prestar= function() {
+        this.disponible =false ;
+
+    }
     
 }
 
@@ -13,8 +17,7 @@ function Usuario(id, nombre, email) {
     this.id = id
     this.nombre = nombre
     this.email =email
-    
-
+    this.librosPrestados = 0
 
 }
 
@@ -112,15 +115,63 @@ function init() {
 // Funciones para renderizar las tablas (debes implementarlas)
 function renderLibros() {
     // Implementa la lógica para mostrar los libros en la tabla
+    const tbody = document.querySelector("#tablaLibros tbody")
+    tbody.innerHTML = ""
+    biblioteca.libros.forEach(libro => {
+        const tr = document.createElement("tr");
+
+        tr.innerHTML = `
+            <td>${libro.id}</td>
+            <td>${libro.titulo}</td>
+            <td>${libro.autor}</td>
+            <td>${libro.año}</td>
+            <td>${libro.disponible ? "Sí" : "No"}</td>
+            <td><button onclick="eliminarLibro(${libro.id})">Eliminar</button></td>
+        `;
+
+        tbody.appendChild(tr);
+    });
 }
 
 function renderUsuarios() {
     // Implementa la lógica para mostrar los usuarios en la tabla
+    const tbody =document.querySelector("#tablaUsuarios tbody")
+    tbody.innerHTML= ""
+    biblioteca.usuarios.forEach(usuario => {
+        const tr = document.createElement("tr");
+
+        tr.innerHTML = `
+            <td>${usuario.id}</td>
+            <td>${usuario.nombre}</td>
+            <td>${usuario.email}</td>
+            <td>${usuario.librosPrestados}</td> 
+            <td><button onclick="eliminarLibro(${usuario.id})">Eliminar</button></td>`;
+        tbody.appendChild(tr);
+    });
 }
 
 function renderPrestamos() {
-    // Implementa la lógica para mostrar los préstamos en la tabla
-}
+    // Mostrar los préstamos en la tabla
+    const tbody = document.querySelector("#tablaPrestamos tbody");
+    tbody.innerHTML = "";
 
+    biblioteca.prestamos.forEach(prestamo => {
+        const tr = document.createElement("tr");
+
+        tr.innerHTML = `
+            <td>${prestamo.id}</td>
+            <td>${prestamo.libroId}</td>
+            <td>${prestamo.usuarioId}</td>
+            <td>${prestamo.fechaPrestamo}</td>
+            <td>${prestamo.fechaDevolucion || "Pendiente"}</td>
+            <td>${prestamo.estado}</td>
+            <td>
+             <button onclick="devolverPrestamo(${prestamo.id})">Devolver</button>}
+            </td>
+        `;
+
+        tbody.appendChild(tr);
+    });
+}
 // Iniciar la aplicación
 window.onload = init;
