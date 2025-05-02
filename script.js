@@ -18,6 +18,9 @@ function Usuario(id, nombre, email) {
     this.nombre = nombre
     this.email =email
     this.librosPrestados = 0
+    this.prestarLibro = function () {
+        this.librosPrestados++
+   }
 
 }
 
